@@ -58,20 +58,40 @@ namespace WebAPI.Controllers
             try
             {
 #if !DEBUG
-                HttpClient httpClient = new HttpClient();
+                
+using (HttpClient httpClient = new HttpClient())
+{
+    var formData = new FormUrlEncodedContent(new[]
+    {
+        new KeyValuePair<string, string>(
+            "secret",
+            _configuration.GetValue<string>("recaptcha_secret")
+        ),
+        new KeyValuePair<string, string>(
+            "response",
+            credentials.GRecaptchaResponse
+        )
+    });
 
-                string recaptchaUrl = $"{_recaptchaBaseURL}?secret={_configuration.GetValue<string>("recaptcha_secret")}&response={credentials.GRecaptchaResponse}";
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, recaptchaUrl);
-                HttpResponseMessage response = await httpClient.SendAsync(request);
+    HttpResponseMessage response =
+        await httpClient.PostAsync(_recaptchaBaseURL, formData);
 
-                GRecaptchaResponse result = JsonConvert.DeserializeObject<GRecaptchaResponse>(await response.Content.ReadAsStringAsync());
+    string responseContent =
+        await response.Content.ReadAsStringAsync();
 
-                if (!result.Success)
-                {
-                    throw new APIException(System.Net.HttpStatusCode.Unauthorized,
-                        "Invalid CAPTCHA",
-                        "CAPTCHA result is not valid");
-                }
+    GRecaptchaResponse result =
+        JsonConvert.DeserializeObject<GRecaptchaResponse>(responseContent);
+
+    if (result == null || !result.Success)
+    {
+        throw new APIException(
+            HttpStatusCode.Unauthorized,
+            "Invalid CAPTCHA",
+            "CAPTCHA result is not valid"
+        );
+    }
+}
+
 #endif
 
                 var builder = Builders<User>.Filter;
