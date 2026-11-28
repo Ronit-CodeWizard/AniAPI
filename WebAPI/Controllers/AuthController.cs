@@ -82,6 +82,13 @@ using (HttpClient httpClient = new HttpClient())
     GRecaptchaResponse result =
         JsonConvert.DeserializeObject<GRecaptchaResponse>(responseContent);
 
+_logger.LogWarning(
+    "Google CAPTCHA verification: Success={Success}, Hostname={Hostname}, Errors={Errors}",
+    result?.Success,
+    result?.HostName,
+    string.Join(",", result?.ErrorCodes ?? Array.Empty<string>())
+);
+
     if (result == null || !result.Success)
     {
         throw new APIException(
