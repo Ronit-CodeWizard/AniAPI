@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AniAPI CAPTCHA Test</title>
+    <script src="https://www.google.com/recaptcha/api.js?render=6Ld2QjcuAAAAABTGTZG0f50OacH8nh4mqFeomdPn"></script>
+</head>
+<body>
+    <h2>AniAPI CAPTCHA Test</h2>
+    <button id="test">Generate CAPTCHA Token</button>
+    <pre id="result">Waiting...</pre>
+
+    <script>
+        document.getElementById("test").addEventListener("click", async () => {
+            const result = document.getElementById("result");
+            result.textContent = "Generating...";
+
+            try {
+                await new Promise(resolve => grecaptcha.ready(resolve));
+
+                const token = await grecaptcha.execute(
+                    "6Ld2QjcuAAAAABTGTZG0f50OacH8nh4mqFeomdPn",
+                    { action: "submit" }
+                );
+
+                result.textContent = token
+                    ? "SUCCESS: Token generated."
+                    : "FAILED: Empty token.";
+            } catch (error) {
+                result.textContent = "ERROR: " + error.message;
+            }
+        });
+    </script>
+</body>
+</html>
