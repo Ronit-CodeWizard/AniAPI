@@ -20,7 +20,7 @@ namespace WebAPI
     Host.CreateDefaultBuilder(args)
         .ConfigureWebHostDefaults(webBuilder =>
         {
-            webBuilder.UseUrls("http://0.0.0.0:10000");
+            webBuilder.UseUrls($"http://0.0.0.0:{Environment.GetEnvironmentVariable("PORT") ?? "10000"}");
             webBuilder.UseStartup<Startup>();
         });
     }
