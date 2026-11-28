@@ -23,7 +23,7 @@ namespace MongoService.Helpers
             string env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             IConfiguration config = new ConfigurationBuilder().
                 AddJsonFile("appsettings.json", false, false).
-                AddJsonFile($"appsettings.{env}.json", false, false).
+                AddJsonFile($"appsettings.{env}.json", true, false).
                 AddEnvironmentVariables().
                 Build();
 
