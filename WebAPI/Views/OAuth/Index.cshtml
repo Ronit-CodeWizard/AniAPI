@@ -118,7 +118,7 @@
             Create an account
         </a>
     </div>
-    <script src="https://www.google.com/recaptcha/api.js?render=6Lf98EgbAAAAAHSXXQIrsL-yByCMxOHsukzOqvHV"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6Ld2QjcuAAAAABTGTZG0f50OacH8nh4mqFeomdPn"></script>
     <script>
         document.getElementById('email').addEventListener('keypress', (e) => {
             if (e.keyCode === 13) {
@@ -155,7 +155,7 @@
             }
 
             window.grecaptcha.ready(() => {
-                window.grecaptcha.execute('6Lf98EgbAAAAAHSXXQIrsL-yByCMxOHsukzOqvHV', { action: 'submit' }).then(async (token) => {
+                window.grecaptcha.execute('6Ld2QjcuAAAAABTGTZG0f50OacH8nh4mqFeomdPn', { action: 'submit' }).then(async (token) => {
                     const response = await fetch('', {
                         method: 'POST',
                         headers: {
