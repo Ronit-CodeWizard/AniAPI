@@ -20,7 +20,8 @@ namespace WebAPI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("http://0.0.0.0:10000");
+webBuilder.UseStartup<Startup>();
                 });
     }
 }
